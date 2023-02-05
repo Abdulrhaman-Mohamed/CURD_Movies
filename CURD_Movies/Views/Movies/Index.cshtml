@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Movies>
+
+
+@{
+    ViewData["Title"] = "Movies";
+
+    }
+
+@if(!Model.Any())
+{
+    <div class="alert alert-warning" role="alert">
+        No Movies yet!
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row row-cols-auto row-cols-lg-4 g-2 g-lg-3">
+
+            @foreach (var movie in Model)
+            {
+                <div class="col">
+                    <div class="card mb-3" style="width: 18rem; margin-right:auto; height:fit-content; ">
+                        <img src="Images/@movie.Image_address" class="card-img-top Poster" alt="@movie.Name">
+                        <div class="card-body">
+                            <div>
+                                <h5 class="card-title">@movie.Name</h5>
+                                <p class="card-text justify-content-start">@(movie.Description.Length > 25 ? movie.Description.Substring(0, 25) + "..." : movie.Description)</p>
+                            </div>
+
+
+                            <div>
+                                <p class="card-text justify-content-md-around" style="margin-bottom: 7px;margin-top: 16px;">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <small class="text-muted">@movie.Rate</small>
+                                </p>
+                            </div>
+                            <div>
+                                <a class="btn btn-sm btn-outline-primary" asp-action="View" asp-route-id="@movie.id">
+                                    <i class="bi bi-camera-reels"></i>
+                                    View
+                                </a>
+                                <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@movie.id">
+                                    <i class="bi bi-pencil"></i>
+                                    Edit</a>
+                                <a href="javascript:;" style="margin-left:30px" class="btn btn-danger js-delete" data-id="@movie.id" >
+                                    <i class="bi bi-trash"></i>
+                                    Delete
+                                </a>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                
+
+            }
+            
+                
+            
+
+
+        </div>
+    </div>
+    }
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.js-delete').on('click', function () {
+                var btn = $(this);
+                bootbox.confirm({
+                    message: "Are you sure that you need to delete this movie?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-outline-secondary'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/movies/delete/' + btn.data('id'),
+                                success: function () {
+                                    var movieContainer = btn.parents('.col');
+                                    movieContainer.addClass('animate__animated animate__zoomOut');
+                                    setTimeout(function () {
+                                        movieContainer.remove();
+                                    }, 1000);
+                                    toastr.success('Movies deleted');
+                                },
+                                error: function () {
+                                    toastr.error('Something went wrong!');
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+    
+    
+
+    <!-- Modal -->
+    
+
+
+

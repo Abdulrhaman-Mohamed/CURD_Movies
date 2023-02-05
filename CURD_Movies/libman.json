@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "formjs@1.1.1",
+      "destination": "wwwroot/lib/formjs/",
+      "files": [
+        "formjs.min.css"
+      ]
+    },
+    {
+      "library": "bootstrap@5.2.3",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "library": "mdbootstrap@4.20.0",
+      "destination": "wwwroot/lib/mdbootstrap/"
+    },
+    {
+      "library": "fontawesome-iconpicker@3.2.0",
+      "destination": "wwwroot/lib/fontawesome-iconpicker/"
+    },
+    {
+      "library": "bootstrap-icons@1.10.3",
+      "destination": "wwwroot/lib/bootstrap-icons/",
+      "files": [
+        "font/fonts/bootstrap-icons.woff",
+        "font/fonts/bootstrap-icons.woff2",
+        "font/bootstrap-icons.min.css"
+      ]
+    },
+    {
+      "library": "bootbox.js@6.0.0",
+      "destination": "wwwroot/lib/bootbox.js/",
+      "files": [
+        "bootbox.min.js"
+      ]
+    }
+  ]
+}

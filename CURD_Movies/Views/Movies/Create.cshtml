@@ -1,0 +1,46 @@
+﻿@model ViewModelMovies 
+@{
+    ViewData["Title"] = "Form Movie";
+}
+<h2>@(Model.id > 0 ? "Edit" : "Create")</h2>
+<section class="row">
+    <div class="row-cols-5">
+        <form method="post" asp-action="@(Model.id > 0 ? "Edit" : "Create")" enctype="multipart/form-data">
+            <input type="hidden" asp-for="id" />
+            <div class="mb-3">
+                <label class="text-lg-start" asp-for="Name"></label>
+                <input type="text" class="form-control" asp-for="Name" maxlength="100" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+            <label class="text-lg-start" asp-for="Genres"></label>
+             <select  class="form-control" asp-for="genre_Id" asp-items="@(new SelectList(Model.Genres , "id" , "Name"))" >                
+             </select>
+                <span asp-validation-for="genre_Id" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-lg-start" asp-for="Rate"></label>
+                <input type="number" class="form-control" asp-for="Rate" style="-webkit-appearance:none"/>
+                <span asp-validation-for="Rate" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-muted" asp-for="Description"></label>
+                <textarea class="form-control" asp-for="Description" maxlength="2500" rows="4" style="resize:none" ></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-muted" asp-for="Poster"></label>
+                <div class="input-group mb-3">                   
+                    <input type="file" class="form-control"  asp-for="Poster">
+                </div>
+                <span  asp-validation-for="Poster" class="text-danger small"></span>
+                
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Save</button>
+            <button asp-action="Index" class="btn btn-secondary mt-4">Cancel</button>
+        </form>
+    </div>
+</section>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}
+
