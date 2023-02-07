@@ -15,9 +15,9 @@ namespace CURD_Movies.Service
 
         public async Task<T> add(T movies)
         {
-            Dbcontext.Set<T>().Add(movies);
-            Dbcontext.SaveChanges();
-            return  movies;
+            await Dbcontext.Set<T>().AddAsync(movies);
+            await Dbcontext.SaveChangesAsync();
+            return movies;
         }
 
         public async Task<T> get(Expression<Func<T, bool>> id)

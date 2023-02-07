@@ -6,10 +6,12 @@ using NToastNotify;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MovieDB>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped( typeof(IbaseServices<>),typeof(baseServices<>));
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddMvc().AddNToastNotifyToastr(new NToastNotify.ToastrOptions()
 {
     ProgressBar = true,

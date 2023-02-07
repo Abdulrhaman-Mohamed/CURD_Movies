@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using CURD_Movies.Models;
 using CURD_Movies.Service;
 using CURD_Movies.ViewModel;
@@ -20,11 +21,14 @@ namespace CURD_Movies.Controllers
         //private readonly IbaseServices<Movies> services;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IToastNotification _toastNotification;
+        private readonly IMapper _mapper;
         
-        public MoviesController(IUnitOfWork unitOfWork , IToastNotification toastNotification)
+
+        public MoviesController(IUnitOfWork unitOfWork , IToastNotification toastNotification , IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _toastNotification = toastNotification;
+            _mapper = mapper;
                  
         }
         public async Task<IActionResult> Index()
@@ -67,6 +71,7 @@ namespace CURD_Movies.Controllers
             }
             model.Genres = await _unitOfWork.Genres.getList();
             var file = Request.Form.Files;
+            model.Poster = file.FirstOrDefault().FileName;
              
             if (!file.Any())
             {
@@ -77,18 +82,20 @@ namespace CURD_Movies.Controllers
             var file1 = Request.Form.Files.FirstOrDefault();
             //For Get Name of image and combine it in path Folder then save it 
             saveImage(file1);
-            
-            
-            var Movie = new Movies
-            {
-                Name = model.Name,
-                genreid = model.genre_Id,
-                Image_address = file1.FileName,
-                Description = model.Description,
-                Rate = model.Rate
-            };
 
-           await _unitOfWork.Movies.add(Movie); 
+            var Movie = _mapper.Map<Movies>(model);
+            #region convert to mapper
+            //var Movie = new Movies
+            //{
+            //    Name = model.Name,
+            //    genreid = model.genre_Id,
+            //    Image_address = file1.FileName,
+            //    Description = model.Description,
+            //    Rate = model.Rate
+            //};
+            #endregion
+
+            await _unitOfWork.Movies.add(Movie); 
            Ok(model);
             _toastNotification.AddSuccessToastMessage("Movie added Successfuly ^_^");
 
@@ -119,16 +126,22 @@ namespace CURD_Movies.Controllers
             var model = await _unitOfWork.Movies.get(x => x.id == id);
             if (model == null)
                 return BadRequest();
-            var movie = new ViewModelMovies
-            {
-                id = model.id,
-                Name = model.Name,
-                genre_Id = model.genreid,
-                Poster = model.Image_address,
-                Description = model.Description,
-                Rate = model.Rate,
-                Genres = await _unitOfWork.Genres.getList()
-            };
+            
+
+            var movie = _mapper.Map<ViewModelMovies>(model);
+            movie.Genres = await _unitOfWork.Genres.getList();
+            #region Convert to Mapper
+            //var movie = new ViewModelMovies
+            //{
+            //    id = model.id,
+            //    Name = model.Name,
+            //    genre_Id = model.genreid,
+            //    Poster = model.Image_address,
+            //    Description = model.Description,
+            //    Rate = model.Rate,
+            //    Genres = await _unitOfWork.Genres.getList()
+            //};
+            #endregion
             return View("Create",movie );
 
         }
@@ -144,21 +157,24 @@ namespace CURD_Movies.Controllers
 
             var file = Request.Form.Files.FirstOrDefault();
             var movie = await  _unitOfWork.Movies.get(x => x.id == model.id);
+            model.Poster = movie.Image_address;
             if(movie == null)
                 return NotFound();
             if(file != null)
             {
                 saveImage(file);
-                movie.Image_address = file.FileName;
+                //movie.Image_address = file.FileName;
+                model.Poster = file.FileName;
+                
             }
-
-                        
-            movie.Name = model.Name;
-            movie.genreid = model.genre_Id;           
-            movie.Description = model.Description;           
-            movie.Rate = model.Rate;
-            movie.genreid = model.genre_Id;
-
+            #region convert to Mapper           
+            //movie.Name = model.Name;
+            //movie.genreid = model.genre_Id;           
+            //movie.Description = model.Description;           
+            //movie.Rate = model.Rate;
+            //movie.genreid = model.genre_Id;
+            #endregion
+            movie = _mapper.Map(model , movie);
             await _unitOfWork.Movies.update(movie);
             _toastNotification.AddSuccessToastMessage("Movie Updated Successfuly ^_^");
             return RedirectToAction("Index");

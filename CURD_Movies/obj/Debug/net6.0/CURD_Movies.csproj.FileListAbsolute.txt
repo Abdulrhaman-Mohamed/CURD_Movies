@@ -387,3 +387,5 @@ G:\Front-end Courses\CURD_project_Movies\CURD_Movies\CURD_Movies\bin\Debug\net6.
 G:\Front-end Courses\CURD_project_Movies\CURD_Movies\CURD_Movies\bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
 G:\Front-end Courses\CURD_project_Movies\CURD_Movies\CURD_Movies\bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
 G:\Front-end Courses\CURD_project_Movies\CURD_Movies\CURD_Movies\obj\Debug\net6.0\CURD_Movies.MvcApplicationPartsAssemblyInfo.cs
+G:\Front-end Courses\CURD_project_Movies\CURD_Movies\CURD_Movies\bin\Debug\net6.0\AutoMapper.dll
+G:\Front-end Courses\CURD_project_Movies\CURD_Movies\CURD_Movies\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

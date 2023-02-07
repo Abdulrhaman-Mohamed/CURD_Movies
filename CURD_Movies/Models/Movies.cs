@@ -14,7 +14,7 @@ namespace CURD_Movies.Models
         [Required, MaxLength(2500)]
         public string Description { get; set; }
         
-        public string Image_address { get; set; }
+        public string? Image_address { get; set; }
 
         public double Rate { get; set; }
         
